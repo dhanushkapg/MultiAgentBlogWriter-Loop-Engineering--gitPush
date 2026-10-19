@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Blog Writer</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f3f6fb;
+            color: #243047;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        h1 { color: #2448a5; }
+
+        input, button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            margin-top: 10px;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        input { border: 1px solid #cbd5e1; }
+
+        button {
+            background: #2448a5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover { background: #18357e; }
+
+        .draft {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.7;
+        }
+
+        .PASS { color: green; font-weight: bold; }
+        .FAIL, .error { color: #c62828; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Multi-Agent Blog Writer</h1>
+        <p>Enter a topic to generate and review your blog.</p>
+
+        <form action="/generate" method="post">
+            <label for="topic"><strong>Blog topic</strong></label>
+
+            <input
+                type="text"
+                id="topic"
+                name="topic"
+                value="{{ topic }}"
+                placeholder="e.g. Benefits of AI in healthcare"
+                required
+            >
+
+            <button type="submit">Generate Blog</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+
+    {% if draft %}
+    <div class="card">
+        <h2>Generated Blog</h2>
+        <div class="draft">{{ draft }}</div>
+    </div>
+
+    <div class="card">
+        <h2>Reviewer Results</h2>
+        <p>
+            Decision:
+            <span class="{{ decision }}">{{ decision }}</span>
+        </p>
+
+        <h3>Reviewer Feedback</h3>
+        <p>{{ feedback or "No feedback provided." }}</p>
+
+        <p><strong>Total drafts generated:</strong> {{ count }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
